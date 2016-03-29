@@ -29,44 +29,37 @@ namespace PrimeTables.Test
         }
 
         [Test]
-        public void GenerateMultiplicationTable_Should_Return_Matrix_NPlusOne_Dimension_And_Correct_Multiplication()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(10)]
+        public void GenerateMultiplicationTable_Should_Return_Matrix_NPlusOne_Dimension_And_Correct_Multiplication(long n)
         {
-            //Arrange
-            var n = 1;
-
+           
             //Act
             var actual = _primeNumberGenerator.GenerateMultiplicationTable(n);
+            var primes = _primeNumberGenerator.GenerateNPrimeNumbers(n).ToList();
 
-            //Assert
+            //Assert that Length of row and column should be n + 1
             Assert.AreEqual(n + 1, actual.GetLength(1));
             Assert.AreEqual(n + 1, actual.GetLength(0));
-            Assert.AreEqual(actual[0,1], 2);
-            Assert.AreEqual(actual[1, 0], 2);
-            Assert.AreEqual(actual[1, 1], 4);
 
-        }
 
-        [Test]
-        public void GenerateMultiplicationTable_Should_Return_Matrix_NPlusOne_Dimension_And_Correct_Multiplication2()
-        {
-            //Arrange
-            var n = 2;
+            //Assert that cells that are not in first row and first column should be multiplication product
+            for (var i = 1; i < actual.GetLength(0); i++)
+            {
+                for (var j = 1; j < actual.GetLength(1); j++)
+                {
+                    Assert.AreEqual(actual[i, j], actual[0, j] * actual[0, i]);
+                }
+            }
 
-            //Act
-            var actual = _primeNumberGenerator.GenerateMultiplicationTable(n);
-
-            //Assert
-            Assert.AreEqual(n + 1, actual.GetLength(1));
-            Assert.AreEqual(n + 1, actual.GetLength(0));
-            Assert.AreEqual(actual[0, 1], 2);
-            Assert.AreEqual(actual[1, 0], 2);
-            Assert.AreEqual(actual[1, 1], 4);
-            Assert.AreEqual(actual[1, 2], 6);
-
-            Assert.AreEqual(actual[0, 2], 3);
-            Assert.AreEqual(actual[2, 0], 3);
-            Assert.AreEqual(actual[2, 1], 6);
-            Assert.AreEqual(actual[2, 2], 9);
+            //Assert that cells in first column and first row should be the prime numbers in order until N prime number
+            for (var i = 1; i < actual.GetLength(0); i++)
+            {
+                Assert.AreEqual(actual[0, i], primes[i - 1]);
+                Assert.AreEqual(actual[i, 0], primes[i - 1]);
+            }
 
         }
     }
