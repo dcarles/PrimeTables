@@ -7,7 +7,7 @@
     <ProjectGuid>{700F2F03-6132-4D38-9E52-878E925984B9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrimeTables.Console</RootNamespace>
+    <RootNamespace>PrimeTables.UI</RootNamespace>
     <AssemblyName>PrimeTables.Console</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,11 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrimeTableCsvFileRenderer.cs" />
+    <Compile Include="PrimeTableConsoleRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrimeTables.Model\PrimeTables.Model.csproj">
+      <Project>{7f83e2cb-bcec-4e0f-9785-584db94e08b8}</Project>
+      <Name>PrimeTables.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

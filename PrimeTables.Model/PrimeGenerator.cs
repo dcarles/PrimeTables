@@ -58,7 +58,11 @@ namespace PrimeTables.Model
             return (int)p;
         }
 
-        // Find all primes up to and including the limit
+        /// <summary>
+        ///  Simple sieve to mark primes discarding multiples starting with 2
+        /// </summary>
+        /// <param name="limit">The approximate Nth Prime</param>
+        /// <returns>A bit array indicating if a number is prime or not</returns>
         private static BitArray SieveOfEratosthenes(int limit)
         {
             var bits = new BitArray(limit + 1, true)
@@ -71,7 +75,7 @@ namespace PrimeTables.Model
             {
                 if (bits[i])
                 {
-                    for (int j = i * i; j <= limit; j += i)
+                    for (var j = i * i; j <= limit; j += i)
                     {
                         bits[j] = false;
                     }
