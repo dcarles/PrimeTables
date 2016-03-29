@@ -23,7 +23,7 @@ namespace PrimeTables.Test
         {
             //Arrange
             //Act
-            TestDelegate primeNumbersDelegate = () => _primeNumberGenerator.GeneratePrimeNumbers(0);
+            TestDelegate primeNumbersDelegate = () => _primeNumberGenerator.GenerateNPrimeNumbers(0);
             //Assert
             Assert.That(primeNumbersDelegate, Throws.ArgumentException);
 
@@ -37,7 +37,7 @@ namespace PrimeTables.Test
             var n = 1;
 
             //Act
-            var actual = _primeNumberGenerator.GeneratePrimeNumbers(n).ToList();
+            var actual = _primeNumberGenerator.GenerateNPrimeNumbers(n).ToList();
 
             //Assert
             Assert.AreEqual(n, actual.Count());
@@ -53,7 +53,7 @@ namespace PrimeTables.Test
             var n = 2;
 
             //Act
-            var actual = _primeNumberGenerator.GeneratePrimeNumbers(n).ToList();
+            var actual = _primeNumberGenerator.GenerateNPrimeNumbers(n).ToList();
 
             //Assert
             Assert.AreEqual(n, actual.Count());
@@ -69,7 +69,7 @@ namespace PrimeTables.Test
             var n = 3;
 
             //Act
-            var actual = _primeNumberGenerator.GeneratePrimeNumbers(n).ToList();
+            var actual = _primeNumberGenerator.GenerateNPrimeNumbers(n).ToList();
 
             //Assert
             Assert.AreEqual(n, actual.Count());
@@ -86,7 +86,7 @@ namespace PrimeTables.Test
             var n = 10;
 
             //Act
-            var actual = _primeNumberGenerator.GeneratePrimeNumbers(n).ToList();
+            var actual = _primeNumberGenerator.GenerateNPrimeNumbers(n).ToList();
 
             //Assert
             Assert.AreEqual(n, actual.Count());
