@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace PrimeTables.Model
 {
     public class PrimeGenerator
     {
-        public List<long> GenerateNPrimeNumbers(long n)
+        public IEnumerable<int> GenerateNPrimeNumbers(int n)
         {
             if (n < 1)
                 throw new ArgumentException("N parameter must be greater than Zero");
@@ -14,68 +15,88 @@ namespace PrimeTables.Model
             return GetNPrimeNumbers(n);
         }
 
-        private static List<long> GetNPrimeNumbers(long n)
+        private static IEnumerable<int> GetNPrimeNumbers(int n)
         {
-            //Create list with first prime in it
-            var primes = new List<long> { 2 };
+            //To make a list of the first n primes, we first need to approximate value of the *n*th prime
+            var limit = ApproximateNthPrime(n);
+            
+            //We use a simple Sieve to find the prime numbers much faster
+            var bits = SieveOfEratosthenes(limit);
 
-            var candidate = 3;
-            while (primes.Count < n)
+            var primes = new List<int>();
+            for (int i = 0, found = 0; i < limit && found < n; i++)
             {
-
-                if (IsPrime(candidate))
+                if (bits[i])
                 {
-                    primes.Add(candidate);
+                    primes.Add(i);
+                    found++;
                 }
-
-                candidate += 2;
             }
-
             return primes;
         }
-
-
-        private static bool IsPrime(int number)
+        
+        private static int ApproximateNthPrime(int nn)
         {
-            //We get the limiting int by square rooting number 
-            var max = Convert.ToInt32(Math.Sqrt(number));
-
-            if (number == 1 || number % 2 == 0)
-                return false;
-
-            if (number == 2)
-                return true;
-
-            for (int i = 2; i <= max; i++)
+            var n = (double)nn;
+            double p;
+            if (nn >= 7022)
             {
-                if ((number % i) == 0)
-                    return false;
+                p = n * Math.Log(n) + n * (Math.Log(Math.Log(n)) - 0.9385);
             }
-
-            return true;
+            else if (nn >= 6)
+            {
+                p = n * Math.Log(n) + n * Math.Log(Math.Log(n));
+            }
+            else if (nn > 0)
+            {
+                p = new int[] { 2, 3, 5, 7, 11, 13 }[nn];
+            }
+            else
+            {
+                p = 0;
+            }
+            return (int)p;
         }
 
-        public long[,] GenerateMultiplicationTable(long n)
+        // Find all primes up to and including the limit
+        private static BitArray SieveOfEratosthenes(int limit)
         {
-           var firstNPrimeNumberMatrix = new long[n + 1, n +1];
+            var bits = new BitArray(limit + 1, true)
+            {
+                [0] = false,
+                [1] = false
+            };
+
+            for (var i = 0; i * i <= limit; i++)
+            {
+                if (bits[i])
+                {
+                    for (int j = i * i; j <= limit; j += i)
+                    {
+                        bits[j] = false;
+                    }
+                }
+            }
+            return bits;
+        }
+      
+
+        public int[,] GenerateMultiplicationTable(int n)
+        {
+           var firstNPrimeNumberMatrix = new int[n + 1, n +1];
             // Generate N prime numbers
-            var primes = GenerateNPrimeNumbers(n).ToList();
+            var primes = GenerateNPrimeNumbers(n);
 
-            // Make an index set, including the element 1 so we can multiply through
-            var indexSet = (new List<long> { 1 }.Union(primes)).ToList();
-
-
-            // We don't want 1 to feature by double multiplication, so we bypass this here
+            // Make a list including the element 1 so we can multiply easily
+            var multiplicationNumbers = (new List<int> { 1 }.Union(primes)).ToList();
+            
             for (var i = 0; i <= n; i++)
             {
                 for (var j = 0; j <= n; j++)
                 {
-
-                    firstNPrimeNumberMatrix[i, j] = indexSet[i] * indexSet[j];
+                    firstNPrimeNumberMatrix[i, j] = multiplicationNumbers[i] * multiplicationNumbers[j];
                 }
             }
-
-            firstNPrimeNumberMatrix[0, 0] = 0;
 
             return firstNPrimeNumberMatrix;
         }

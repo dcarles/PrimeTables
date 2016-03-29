@@ -15,10 +15,11 @@ namespace PrimeTables.Test
         public void TestInitialise()
         {
             _primeNumberGenerator = new PrimeGenerator();
+
         }
 
         [Test]
-        public void GetNPrimeNumbers_Should_Throw_ArgumentException_If_N_Is_Less_Than_One()
+        public void GenerateMultiplicationTable_Should_Throw_ArgumentException_If_N_Is_Less_Than_One()
         {
             //Arrange
             //Act
@@ -33,7 +34,9 @@ namespace PrimeTables.Test
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(10)]
-        public void GenerateMultiplicationTable_Should_Return_Matrix_NPlusOne_Dimension_And_Correct_Multiplication(long n)
+        [TestCase(100)]
+        [TestCase(1000)]
+        public void GenerateMultiplicationTable_Should_Return_Matrix_NPlusOne_Dimension_And_Correct_Multiplication(int n)
         {
            
             //Act
