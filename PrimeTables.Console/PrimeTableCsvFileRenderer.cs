@@ -12,22 +12,25 @@ namespace PrimeTables.UI
     {
         public void DisplayMultiplicationTable(int[,] table)
         {
-            var csv = new StringBuilder();
+            const string fileName = "primeTable.csv";
 
-            for (var i = 0; i < table.GetLength(0); i++)
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+
+            using (var outfile = new StreamWriter(fileName))
             {
-                for (var j = 0; j < table.GetLength(1); j++)
+                for (var i = 0; i < table.GetLength(0); i++)
                 {
-                    if (i != 0 || j != 0)
-                        csv.Append(table[i, j].ToString().PadLeft(2, '0'));
+                    for (var j = 0; j < table.GetLength(1); j++)
+                    {
+                        if (i != 0 || j != 0)
+                            outfile.Write(table[i, j].ToString().PadLeft(2, '0'));
 
-                    csv.Append(",");
+                        outfile.Write(",");
+                    }
+                    outfile.Write(Environment.NewLine);
                 }
-                csv.Remove(csv.Length - 1, 1);
-                csv.Append(Environment.NewLine);
             }
-
-            File.WriteAllText("primeTable.csv", csv.ToString());
         }
     }
 }
