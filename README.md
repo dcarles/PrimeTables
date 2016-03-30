@@ -32,6 +32,7 @@ I Implemented it using TDD style. My approach was the following:
  * The table generation algorithm can be improved for example calculating table[i,j] cell is same as calculating table[j,i] cell so that can be improved to calculate once.
  * The display of data can definitely be improved. Now it little bit slow for more than 7000 and the file end being around 1GB with 10K. I did optimise it a little so it doesnt have any out of memory exception at least until 10K primes.
  * The Separation of concerns and SOLID principles could be done little bit better,, maybe separating the prime table generation to its own class, creating some interface for prime generation class and injecting it to new class.
+ * Better Error handling
  * I could have done more performance testing and also more testing in the UI, there is at the moment no tests on the file or console display methods.
 
 #### Final comments
